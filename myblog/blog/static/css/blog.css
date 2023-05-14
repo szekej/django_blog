@@ -11,13 +11,19 @@
   align-items: center;
 }
 
+.postdate{
+    text-align: center;
+}
+
+.btn-comment{
+    position: absolute;
+    right: 0px;
+}
+
 .loader {
-  border: 10px solid #f3f3f3;
-  border-top: 10px solid #3498db;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 2s linear infinite;
+  filter: hue-rotate(0deg);
+  color: linear-gradient(45deg,#0f8,#08f);
+  animation: hue 10000ms infinite linear;
 }
 
 @keyframes spin {
@@ -27,6 +33,11 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+.centerstage{
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
