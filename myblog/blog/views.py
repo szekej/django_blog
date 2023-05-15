@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
+from django.views.decorators.http import require_POST
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Comment
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -41,9 +42,9 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
 
 
-class PostDeleteView(LoginRequiredMixin, DetailView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
-    success_url = reverse_lazy('post_list')
+    success_url = reverse_lazy('post_remove')
 
 
 class DraftListView(LoginRequiredMixin, ListView):
@@ -53,18 +54,16 @@ class DraftListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = Post.objects.filter(published_date__isnull=True)
-        ordered_queryset = queryset.order_by('created_date')
+        ordered_queryset = queryset.order_by('create_date')
         return ordered_queryset
 
-
-#####################################################
-#####################################################
 
 @login_required
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
     return redirect('post_detail', pk=pk)
+
 
 @login_required
 def add_comment_to_post(request, pk):
